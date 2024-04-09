@@ -62,6 +62,10 @@ public class Event {
         return seats_booked;
     }
 
+    public int getFreeSeats (){
+        return this.location_capacity - this.seats_booked;
+    }
+
     // SETTER
     public void setTitle(String title) throws EventManagerException {
         checkTitle(title);
@@ -98,12 +102,12 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Evento{" +
-                "title='" + title + '\'' +
-                ", date=" + date +
-                ", location_capacity=" + location_capacity +
-                ", seats_booked=" + seats_booked +
-                '}';
+        return "Event { " +
+                "title: '" + title + '\'' +
+                ", date: " + date.getDayOfWeek() + " " + date.getDayOfMonth() + " " + date.getMonth() + " " + date.getYear() +
+                ", location_capacity: " + location_capacity +
+                ", seats_booked: " + seats_booked +
+                " }";
     }
 
 }
