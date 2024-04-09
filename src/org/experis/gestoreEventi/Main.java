@@ -10,15 +10,15 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        try {
-            Concert concert = new Concert("aaa",LocalDate.parse("2030-02-02"),50, LocalTime.parse("12:10"),new BigDecimal("30.555"));
-            System.out.println(concert.getFormattedDataHours());
-            System.out.println(concert.getPrice());
-            System.out.println(concert);
-
-        } catch (EventManagerException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Concert concert = new Concert("aaa",LocalDate.parse("2030-02-02"),50, LocalTime.parse("12:10"),new BigDecimal("30.555"));
+//            System.out.println(concert.getFormattedDataHours());
+//            System.out.println(concert.getPrice());
+//            System.out.println(concert);
+//
+//        } catch (EventManagerException e) {
+//            System.out.println("Error: " + e.getMessage());
+//        }
 
 
         Scanner scan = new Scanner(System.in);
@@ -35,14 +35,20 @@ public class Main {
 
             LocalDate date = setDate(scan);
 
-            // TODO: nextInt Exception
-            System.out.print("Location capacity: ");
-            int locationCapacity = scan.nextInt();
-
             try {
+
+                System.out.print("Location capacity: ");
+                int locationCapacity = Integer.parseInt(scan.nextLine());
                 event = new Event(title,date,locationCapacity);
+
             } catch (EventManagerException e) {
+                System.out.println("===========================================");
                 System.out.println("Error: " + e.getMessage());
+                System.out.println("===========================================");
+            } catch (NumberFormatException e) {
+                System.out.println("===========================================");
+                System.out.println("Error: Invalid input. Please enter a valid number.");
+                System.out.println("===========================================");
             }
 
         } while (event == null);
@@ -55,14 +61,22 @@ public class Main {
             choice = getChoice("Do you want to make a booking for this event? (y/n): ", scan);
 
             if (choice.equalsIgnoreCase("y")) {
-                System.out.print("Enter the number of seats to book: ");
-                int seatsToBook = scan.nextInt();
                 try {
+                    System.out.print("Enter the number of seats to book: ");
+                    int seatsToBook = Integer.parseInt(scan.nextLine());
                     event.addBooking(seatsToBook);
+                    System.out.println("===========================================");
                     System.out.println("Booking successful!");
+                    System.out.println("===========================================");
                     stampInfoSeats(event);
                 } catch (EventManagerException e) {
+                    System.out.println("===========================================");
                     System.out.println("Booking failed: " + e.getMessage());
+                    System.out.println("===========================================");
+                } catch (NumberFormatException e) {
+                    System.out.println("===========================================");
+                    System.out.println("Error: Invalid input. Please enter a valid number.");
+                    System.out.println("===========================================");
                 }
             }
         }while (choice.equalsIgnoreCase("y") && event.getFreeSeats() > 0);
@@ -72,14 +86,22 @@ public class Main {
             choice = getChoice("Do you want to cancel a booking for this event? (y/n): ", scan);
 
             if (choice.equalsIgnoreCase("y")) {
-                System.out.print("Enter the number of seats to cancel: ");
-                int seatsToCancel = scan.nextInt();
                 try {
+                    System.out.print("Enter the number of seats to cancel: ");
+                    int seatsToCancel = Integer.parseInt(scan.nextLine());
                     event.cancelBooking(seatsToCancel);
+                    System.out.println("===========================================");
                     System.out.println("Booking cancellation successful!");
+                    System.out.println("===========================================");
                     stampInfoSeats(event);
                 } catch (EventManagerException e) {
+                    System.out.println("===========================================");
                     System.out.println("Booking cancellation failed: " + e.getMessage());
+                    System.out.println("===========================================");
+                } catch (NumberFormatException e) {
+                    System.out.println("===========================================");
+                    System.out.println("Error: Invalid input. Please enter a valid number.");
+                    System.out.println("===========================================");
                 }
             }
         }
@@ -92,7 +114,7 @@ public class Main {
         do {
             System.out.println("===========================================");
             System.out.print(s);
-            choice = scan.next();
+            choice = scan.nextLine();
         } while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
         return choice;
     }
