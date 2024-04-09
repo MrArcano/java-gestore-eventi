@@ -18,10 +18,10 @@ public class Main {
             System.out.println("Enter details of the new event:");
             System.out.print("Title: ");
             String title = scan.nextLine();
-            // TODO: vedere se far inserire la data separata usando LocalDate.of(year,month,day)
 
-            System.out.print("Date (YYYY-MM-DD): ");
-            LocalDate date = LocalDate.parse(scan.nextLine());
+            LocalDate date = setDate(scan);
+
+            // TODO: nextInt Exception
             System.out.print("Location capacity: ");
             int locationCapacity = scan.nextInt();
 
@@ -36,26 +36,69 @@ public class Main {
         System.out.println("===========================================");
         System.out.println(event);
 
-        System.out.println("===========================================");
-        System.out.print("Do you want to make a booking for this event? (y/n): ");
-        String makeBookingChoice = scan.next();
+        String choice;
+        do {
+            choice = getChoice("Do you want to make a booking for this event? (y/n): ", scan);
 
-        if (makeBookingChoice.equalsIgnoreCase("y")) {
-            System.out.print("Enter the number of seats to book: ");
-            int seatsToBook = scan.nextInt();
-            try {
-                event.addBooking(seatsToBook);
-                System.out.println("Booking successful!");
-            } catch (EventManagerException e) {
-                System.out.println("Booking failed: " + e.getMessage());
+            if (choice.equalsIgnoreCase("y")) {
+                System.out.print("Enter the number of seats to book: ");
+                int seatsToBook = scan.nextInt();
+                try {
+                    event.addBooking(seatsToBook);
+                    System.out.println("Booking successful!");
+                    stampInfoSeats(event);
+                } catch (EventManagerException e) {
+                    System.out.println("Booking failed: " + e.getMessage());
+                }
+            }
+        }while (choice.equalsIgnoreCase("y") && event.getFreeSeats() > 0);
+
+        choice = "y";
+        while (choice.equalsIgnoreCase("y") && event.getSeats_booked() > 0){
+            choice = getChoice("Do you want to cancel a booking for this event? (y/n): ", scan);
+
+            if (choice.equalsIgnoreCase("y")) {
+                System.out.print("Enter the number of seats to cancel: ");
+                int seatsToCancel = scan.nextInt();
+                try {
+                    event.cancelBooking(seatsToCancel);
+                    System.out.println("Booking cancellation successful!");
+                    stampInfoSeats(event);
+                } catch (EventManagerException e) {
+                    System.out.println("Booking cancellation failed: " + e.getMessage());
+                }
             }
         }
 
+        scan.close();
+    }
+
+    private static String getChoice(String s, Scanner scan) {
+        String choice;
+        do {
+            System.out.println("===========================================");
+            System.out.print(s);
+            choice = scan.next();
+        } while (!choice.equalsIgnoreCase("y") && !choice.equalsIgnoreCase("n"));
+        return choice;
+    }
+
+    private static void stampInfoSeats(Event event) {
         System.out.println("===========================================");
         System.out.printf("Seats booked: %d%n", event.getSeats_booked());
         System.out.printf("Free seats: %d%n", event.getFreeSeats());
-        System.out.println("===========================================");
+    }
 
-        scan.close();
+    private static LocalDate setDate(Scanner scan) {
+        LocalDate date = null;
+        do {
+            try {
+                System.out.print("Date (YYYY-MM-DD): ");
+                date = LocalDate.parse(scan.nextLine());
+            } catch (Exception e) {
+                System.out.println("Errore: " + e.getMessage());
+            }
+        }while (date == null);
+        return date;
     }
 }
