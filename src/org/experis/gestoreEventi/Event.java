@@ -78,8 +78,6 @@ public class Event {
     }
 
     // METHODS
-
-
     public void addBooking(int value) throws EventManagerException {
         if (this.date.isBefore(LocalDate.now())) {
             throw new EventManagerException("Cannot add booking for past events.");

@@ -4,6 +4,7 @@ import org.experis.gestoreEventi.exception.EventManagerException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class ProgrammEvents {
@@ -44,5 +45,27 @@ public class ProgrammEvents {
         return this.events.size();
     }
 
+    public void clearEvents() {
+        events.clear();
+    }
 
+    public String getProgramSummary() {
+        String output = "";
+
+//        ArrayList<Event> list = events;
+//
+//        list.sort(Comparator.comparing(Event::getDate));
+//        // list.sort(Comparator.comparing(ev -> ev.getDate()));
+//
+//        for(Event event : list){
+//            output += event.getDate() + " - " + event.getTitle() + "\n";
+//        }
+
+        output = events.stream()
+                .sorted(Comparator.comparing(Event::getDate))
+                .map(event -> event.getDate() + " - " + event.getTitle())
+                .collect(Collectors.joining("\n"));
+
+        return output;
+    }
 }

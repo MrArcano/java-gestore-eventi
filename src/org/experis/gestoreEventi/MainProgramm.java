@@ -19,17 +19,29 @@ public class MainProgramm {
             ProgrammEvents progEvents = new ProgrammEvents("Programm1",list);
             ProgrammEvents progEventsNULL = new ProgrammEvents("Programm");
 
+            System.out.println("=================================================================");
             System.out.println("Number Events: " + progEvents.getNumberOfEvents());
             System.out.println("Number Events: " + progEventsNULL.getNumberOfEvents());
+            System.out.println("=================================================================");
 
             progEvents.addEvent(new Event("event6", LocalDate.parse("2033-05-05"),500));
             progEventsNULL.addEvent(new Event("event6", LocalDate.parse("2033-05-05"),500));
 
             System.out.println("Number Events: " + progEvents.getNumberOfEvents());
             System.out.println("Number Events: " + progEventsNULL.getNumberOfEvents());
+            System.out.println("=================================================================");
 
             System.out.println(progEvents.getEventsOnDate(LocalDate.parse("2027-07-10")));
             System.out.println(progEvents.getEventsOnDate(LocalDate.parse("2026-07-10")));
+            System.out.println("=================================================================");
+
+            progEventsNULL.clearEvents();
+
+            System.out.println("Number Events: " + progEvents.getNumberOfEvents());
+            System.out.println("Number Events: " + progEventsNULL.getNumberOfEvents());
+            System.out.println("=================================================================");
+
+            System.out.println(progEvents.getProgramSummary());
 
         } catch (EventManagerException e) {
             throw new RuntimeException(e);
