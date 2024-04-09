@@ -2,11 +2,25 @@ package org.experis.gestoreEventi;
 
 import org.experis.gestoreEventi.exception.EventManagerException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        try {
+            Concert concert = new Concert("aaa",LocalDate.parse("2030-02-02"),50, LocalTime.parse("12:10"),new BigDecimal("30.555"));
+            System.out.println(concert.getFormattedDataHours());
+            System.out.println(concert.getPrice());
+            System.out.println(concert);
+
+        } catch (EventManagerException e) {
+            throw new RuntimeException(e);
+        }
+
+
         Scanner scan = new Scanner(System.in);
         Event event = null;
 
