@@ -79,16 +79,23 @@ public class Event {
 
     // METHODS
     public void addBooking(int value) throws EventManagerException {
+        if (value < 0) {
+            throw new EventManagerException("Cannot add negative bookings.");
+        }
         if (this.date.isBefore(LocalDate.now())) {
             throw new EventManagerException("Cannot add booking for past events.");
         }
         if (this.seats_booked + value > this.location_capacity) {
             throw new EventManagerException("Exceeds location capacity. Cannot add booking.");
         }
+
         this.seats_booked += value;
     }
 
     public void cancelBooking(int value) throws EventManagerException {
+        if (value < 0) {
+            throw new EventManagerException("Cannot cancel a negative number of bookings.");
+        }
         if (this.date.isBefore(LocalDate.now())) {
             throw new EventManagerException("Cannot cancel booking for past events.");
         }
